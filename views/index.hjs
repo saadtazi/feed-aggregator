@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{ title }}</title>
+    <script type="text/javascript" 
+        src="/faye/client.js">
+        </script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1>{{ title }} <span id="article-count">({{articles.length}})</span></h1>
+    <p>Welcome to {{ title }}</p>
+    <ul class="articles">
+        {{# articles}}
+        <li class="article" id="{{ guid }}">
+          <h2>{{ title }}</h2>
+          {{{ content }}}
+          <a href="{{ link }}">click</a>
+        </li>
+      {{/articles}}
+    </ul>
+  </body>
+  <script type="text/javascript">
+  $(function() {
+    function updateCount() {
+      $('#article-count').text('(' + $('li.article').length + ')')
+    }
+    function addArticle(article) {
+      console.log('article.guid li:: ', $('#' + article.guid));
+      if ($('#' + article.guid).length === 0) {
+        var dom = $('<li class="article"/>');
+        dom.attr('guid', article.guid);
+        dom.append($('<h2>').text(article.title))
+        dom.append(article.content)
+           .append($('<a>').attr('href', article.link));
+        $('.articles').prepend(dom);
+        $('.article').slice(20).remove();
+
+        updateCount();
+        
+      } else {
+        console.log('already exists');
+      }
+    }
+
+    var client = new Faye.Client('/faye');
+    var subscription = client.subscribe('/article', function(article) {
+      console.log(article);
+      addArticle(article);
+    });
+
+    updateCount();
+
+  })
+</script>
+</html>

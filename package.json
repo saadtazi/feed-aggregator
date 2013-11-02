@@ -1,0 +1,29 @@
+{
+  "name": "feed-aggregator",
+  "version": "0.0.1",
+  "description": "rss and atom aggregator",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "tbd"
+  },
+  "keywords": [
+    "rss",
+    "atom",
+    "aggregator"
+  ],
+  "author": "Saad Tazi",
+  "license": "MIT",
+  "dependencies": {
+    "hjs": "*",
+    "less-middleware": "*",
+    "feed-poll": "0.0.1",
+    "express": "~3.4.4",
+    "feed-read": "0.0.1",
+    "underscore": "1.x.x",
+    "sax": "~0.5.5"
+  }
+}
